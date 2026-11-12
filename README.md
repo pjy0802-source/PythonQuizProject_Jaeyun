@@ -654,3 +654,45 @@ README.md:633:## Git 복제 실습
 ![퀴즈 추가](docs/screenshots/add-quiz.png)
 ![퀴즈 목록](docs/screenshots/quiz-list.png)
 ![점수 확인](docs/screenshots/score.png)
+
+## GitHub 저장소와 커밋 이력
+
+- [프로젝트 저장소](https://github.com/pjy0802-source/PythonQuizProject_Jaeyun)
+- [main 브랜치 전체 커밋 이력](https://github.com/pjy0802-source/PythonQuizProject_Jaeyun/commits/main/)
+- `git fetch origin` 후 `git rev-list --count origin/main`으로 확인한 결과, 캡처 시점의 원격 `main`에는 커밋 26개가 있었다.
+
+![원격 main 브랜치의 커밋 26개와 전체 이력](docs/screenshots/git-history.png)
+
+## 커밋 단위와 메시지 규칙
+
+한 커밋에는 하나의 작업 목적을 담는다. 예를 들어 메뉴 입력 검증과
+저장 파일 오류 처리는 각각 따로 커밋한다. 변경을 설명하거나 검증하는
+README와 캡처는 관련 코드와 함께 커밋할 수 있다.
+
+메시지 형식은 `타입(범위): 짧은 요약`이다. 범위는 필요할 때 넣으며,
+생략할 때는 `타입: 짧은 요약` 형식을 사용한다.
+
+| 타입 | 사용 시점 | 메시지 예시 |
+|---|---|---|
+| `Feat` | 기능 추가 | `Feat(quiz): 퀴즈 등록 기능 추가` |
+| `Fix` | 오류 수정 | `Fix: 메뉴 번호 입력 검증 추가` |
+| `Refactor` | 동작을 유지하며 코드 구조 개선 | `Refactor: 퀴즈 데이터를 Quiz 객체로 관리` |
+| `Docs` | 문서와 실습 증빙 수정 | `Docs: Git 복제와 pull 검증 결과 추가` |
+| `Chore` | 프로젝트 설정과 관리 파일 변경 | `Chore: Python 캐시 폴더 추적 제외` |
+
+## JSON 저장 방식의 성능과 메모리 한계
+
+이 프로젝트는 `state.json` 한 파일에 퀴즈 목록과 점수 기록을 저장한다.
+파일을 텍스트 편집기에서 직접 확인할 수 있어, 데이터가 적은 콘솔 퀴즈에 적합하다.
+
+현재 구현은 시작할 때 `json.load()`로 전체 파일을 읽고 퀴즈와 점수 목록을
+메모리에 올린다. 따라서 퀴즈와 점수 기록이 늘면 시작 시 읽고 해석해야 하는
+데이터가 많아지고 메모리 사용량도 증가한다.
+
+문제를 한 개 추가하거나 점수를 한 건 기록할 때도 `json.dump()`로
+전체 파일을 다시 쓴다. 파일이 커질수록 작은 변경에도 저장 시간이
+늘어날 수 있다. 이 내용은 현재 코드의 읽기·쓰기 방식에 근거한
+주의사항이며, 대용량 실행 시간이나 메모리 사용량은 측정하지 않았다.
+
+데이터가 많아져 필요한 퀴즈만 조회하거나 점수 한 건씩 저장해야 한다면,
+Python 표준 라이브러리의 `sqlite3`로 퀴즈와 점수 기록을 관리할 수 있다.
