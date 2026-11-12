@@ -49,9 +49,30 @@
         "4. <>"
       ],
       "answer": "3"
+    },
+    {
+      "question": "파이썬에서 문자열의 길이를 구하는 함수는?",
+      "options": [
+        "1. len()",
+        "2. print()",
+        "3. input()",
+        "4. type()"
+      ],
+      "answer": "1"
+    },
+    {
+      "question": "파이썬에서 반복문에 사용하는 키워드는?",
+      "options": [
+        "1. for",
+        "2. loop",
+        "3. repeat",
+        "4. each"
+      ],
+      "answer": "1"
     }
   ],
   "scores": [
+    3,
     4
   ]
 }
