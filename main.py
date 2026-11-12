@@ -28,12 +28,27 @@ class QuizGame:
     # ===== 저장/불러오기 =====
     def load_state(self):
         """state.json에서 데이터 불러오기"""
-        if os.path.exists(STATE_FILE):
+        self.state_read_failed = False
+
+        try:
             with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                self.quizzes = data.get("quizzes", [])
-                self.scores = data.get("scores", [])
-        else:
+
+            if not isinstance(data, dict):
+                raise ValueError("저장 파일의 형식이 올바르지 않습니다.")
+
+            quizzes = data.get("quizzes")
+            scores = data.get("scores")
+
+            if not isinstance(quizzes, list) or not isinstance(scores, list):
+                raise ValueError("퀴즈 또는 점수 목록의 형식이 올바르지 않습니다.")
+
+            self.quizzes = quizzes
+            self.scores = scores
+        except (OSError, ValueError) as error:
+            if not isinstance(error, FileNotFoundError):
+                self.state_read_failed = True
+                print("저장 파일을 읽을 수 없어 기본 퀴즈로 시작합니다. 기존 파일은 보존합니다.")
             # 파일 없으면 기본 퀴즈 설정
             self.quizzes = [
                 {
@@ -63,16 +78,28 @@ class QuizGame:
                 }
             ]
             self.scores = []
-            self.save_state()  # 기본 퀴즈 저장
+            if not self.state_read_failed:
+                self.save_state()
 
     def save_state(self):
-        """state.json에 데이터 저장"""
+        """저장에 성공하면 True를 반환한다."""
+        if self.state_read_failed:
+            print("기존 저장 파일을 보호하기 위해 이번 변경은 저장하지 않습니다.")
+            return False
+
         data = {
             "quizzes": self.quizzes,
-            "scores": self.scores
+            "scores": self.scores,
         }
-        with open(STATE_FILE, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+
+        try:
+            with open(STATE_FILE, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except OSError:
+            print("저장 파일에 쓰지 못했습니다.")
+            return False
+
+        return True
 
     # ===== 기능 메서드 =====
     def read_number(self, prompt, minimum, maximum):
@@ -112,8 +139,8 @@ class QuizGame:
 
         print(f"\n퀴즈 종료! 당신의 점수는 {score}/{len(self.quizzes)}입니다.")
         self.scores.append(score)
-        self.save_state()
-        print("✅ 점수가 저장되었습니다!")
+        if self.save_state():
+            print("✅ 점수가 저장되었습니다!")
 
     def read_text(self, prompt):
         while True:
@@ -143,8 +170,8 @@ class QuizGame:
         }
 
         self.quizzes.append(new_quiz)
-        self.save_state()
-        print("✅ 퀴즈가 추가되고 저장되었습니다!")
+        if self.save_state():
+            print("✅ 퀴즈가 추가되고 저장되었습니다!")
 
     def show_quiz_list(self):
         """퀴즈 목록 보기"""
@@ -197,4 +224,3 @@ if __name__ == "__main__":
         game.run()
     except (KeyboardInterrupt, EOFError):
         print("\n입력이 중단되어 프로그램을 종료합니다.")
-        
