@@ -17,7 +17,27 @@ class Quiz:
             "options": self.options,
             "answer": self.answer
         }
+    @classmethod
+    def from_dict(cls, data):
+        if not isinstance(data, dict):
+            raise ValueError("퀴즈 데이터는 딕셔너리여야 합니다.")
 
+        question = data.get("question")
+        options = data.get("options")
+        answer = data.get("answer")
+
+        if (
+            not isinstance(question, str) or not question.strip()
+            or not isinstance(options, list) or len(options) != 4
+            or any(not isinstance(option, str) or not option.strip() for option in options)
+            or answer not in ("1", "2", "3", "4")
+        ):
+            raise ValueError("퀴즈 데이터 형식이 올바르지 않습니다.")
+
+        return cls(question, options, answer)
+
+    def is_correct(self, answer):
+        return self.answer == answer
 # ===== QuizGame 클래스 =====
 class QuizGame:
     def __init__(self):
@@ -43,7 +63,7 @@ class QuizGame:
             if not isinstance(quizzes, list) or not isinstance(scores, list):
                 raise ValueError("퀴즈 또는 점수 목록의 형식이 올바르지 않습니다.")
 
-            self.quizzes = quizzes
+            self.quizzes = [Quiz.from_dict(item) for item in quizzes]
             self.scores = scores
         except (OSError, ValueError) as error:
             if not isinstance(error, FileNotFoundError):
@@ -88,7 +108,7 @@ class QuizGame:
             return False
 
         data = {
-            "quizzes": self.quizzes,
+            "quizzes": [quiz.to_dict() for quiz in self.quizzes],
             "scores": self.scores,
         }
 
@@ -126,16 +146,16 @@ class QuizGame:
         print("\n[퀴즈를 시작합니다!]")
 
         for q in self.quizzes:
-            print(f"\n질문: {q['question']}")
-            for option in q['options']:
+            print(f"\n질문: {q.question}")
+            for option in q.options:
                 print(option)
 
             answer = str(self.read_number("정답 번호를 입력하세요: ", 1, 4))
-            if answer == q['answer']:
+            if q.is_correct(answer):
                 print("정답입니다! 🎉")
                 score += 1
             else:
-                print(f"틀렸습니다. 정답은 {q['answer']}번입니다. 😢")
+                print(f"틀렸습니다. 정답은 {q.answer}번입니다. 😢")
 
         print(f"\n퀴즈 종료! 당신의 점수는 {score}/{len(self.quizzes)}입니다.")
         self.scores.append(score)
@@ -163,11 +183,7 @@ class QuizGame:
 
         answer = str(self.read_number("정답 번호를 입력하세요: ", 1, 4))
 
-        new_quiz = {
-            "question": question,
-            "options": options,
-            "answer": answer
-        }
+        new_quiz = Quiz(question, options, answer)
 
         self.quizzes.append(new_quiz)
         if self.save_state():
@@ -177,7 +193,7 @@ class QuizGame:
         """퀴즈 목록 보기"""
         print(f"\n[퀴즈 목록] 총 {len(self.quizzes)}개")
         for i, q in enumerate(self.quizzes, 1):
-            print(f"{i}. {q['question']}")
+            print(f"{i}. {q.question}")
 
     def show_scores(self):
         """점수 확인"""

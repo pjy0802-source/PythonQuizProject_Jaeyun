@@ -607,3 +607,26 @@ PS C:\Users\User\AppData\Local\Temp> python $quizScript
 PS C:\Users\User\AppData\Local\Temp> Pop-Location
 PS C:\PythonQuizProject_Jaeyun> 
 ```
+## Quiz 객체로 퀴즈 관리
+
+저장 파일의 문제를 `from_dict()`로 `Quiz` 객체로 불러온다.
+풀이에서는 `is_correct()`로 정답을 판정하고, 저장할 때는
+`to_dict()`로 변환해 기존 `state.json` 형식을 유지한다.
+
+임시 복사본에서 기존 7문제를 풀어 5점을 저장하고, 새 문제를 추가했다.
+프로그램을 종료하고 다시 실행한 뒤 메뉴 3과 4에서 새 문제와 점수가 유지된 것을 확인했다.
+
+```text
+퀴즈 종료! 당신의 점수는 5/7입니다.
+✅ 점수가 저장되었습니다!
+✅ 퀴즈가 추가되고 저장되었습니다!
+
+[퀴즈 목록] 총 8개
+8. 0405질문?
+
+[점수 기록] 총 3회 도전
+1회차: 3점
+2회차: 4점
+3회차: 5점
+🏆 최고 점수: 5점
+```
