@@ -5,11 +5,16 @@
 ---
 
 ## 📁 프로젝트 구조
+```text
 PythonQuizProject_Jaeyun/
-├── main.py # 메인 실행 파일
-├── quizzes.json # 퀴즈 데이터 저장 파일 (자동 생성)
-├── scores.json # 점수 기록 저장 파일 (자동 생성)
-└── README.md # 프로젝트 설명서
+├── main.py       # 퀴즈 프로그램 실행 파일
+├── state.json    # 퀴즈 목록과 점수 기록 저장
+├── README.md     # 프로젝트 설명과 테스트 기록
+├── .gitignore    # Python 캐시 폴더를 Git 추적에서 제외
+└── docs/
+    └── screenshots/  # 테스트 및 Git 작업 캡처
+```
+
 
 
 1. main.py 생성
