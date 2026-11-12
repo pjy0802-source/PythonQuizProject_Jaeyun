@@ -75,6 +75,24 @@ class QuizGame:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     # ===== 기능 메서드 =====
+    def read_number(self, prompt, minimum, maximum):
+        while True:
+            value = input(prompt).strip()
+
+            if not value:
+                print("숫자를 입력해 주세요.")
+                continue
+
+            try:
+                number = int(value)
+            except ValueError:
+                print("정수를 입력해 주세요.")
+                continue
+
+            if minimum <= number <= maximum:
+                return number
+
+            print(f"{minimum}~{maximum} 사이의 숫자를 입력해 주세요.")
     def play_quiz(self):
         """퀴즈 풀기"""
         score = 0
@@ -85,8 +103,7 @@ class QuizGame:
             for option in q['options']:
                 print(option)
 
-            answer = input("정답 번호를 입력하세요: ")
-
+            answer = str(self.read_number("정답 번호를 입력하세요: ", 1, 4))
             if answer == q['answer']:
                 print("정답입니다! 🎉")
                 score += 1
@@ -108,7 +125,7 @@ class QuizGame:
             option = input(f"{i}번 보기를 입력하세요: ")
             options.append(f"{i}. {option}")
 
-        answer = input("정답 번호를 입력하세요 (1~4): ")
+        answer = str(self.read_number("정답 번호를 입력하세요: ", 1, 4))
 
         new_quiz = {
             "question": question,
