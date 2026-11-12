@@ -647,3 +647,10 @@ README.md:633:## Git 복제 실습
 ```
 ![Git 저장소 복제 결과](docs/screenshots/git-clone.png)
 ![원래 프로젝트에서 변경을 받아온 결과](docs/screenshots/git-pull.png)
+## 개발 환경과 실행 화면
+
+![개발 환경](docs/screenshots/environment.png)
+![퀴즈 풀이와 입력 검증](docs/screenshots/play-validation.png)
+![퀴즈 추가](docs/screenshots/add-quiz.png)
+![퀴즈 목록](docs/screenshots/quiz-list.png)
+![점수 확인](docs/screenshots/score.png)
