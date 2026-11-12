@@ -115,14 +115,23 @@ class QuizGame:
         self.save_state()
         print("✅ 점수가 저장되었습니다!")
 
+    def read_text(self, prompt):
+        while True:
+            value = input(prompt).strip()
+
+            if value:
+                return value
+
+            print("내용을 입력해 주세요.")
+
     def add_quiz(self):
         """퀴즈 추가"""
         print("\n[새 퀴즈 추가]")
-        question = input("질문을 입력하세요: ")
+        question = self.read_text("질문을 입력하세요: ")
 
         options = []
         for i in range(1, 5):
-            option = input(f"{i}번 보기를 입력하세요: ")
+            option = self.read_text(f"{i}번 보기를 입력하세요: ")
             options.append(f"{i}. {option}")
 
         answer = str(self.read_number("정답 번호를 입력하세요: ", 1, 4))
