@@ -630,3 +630,6 @@ PS C:\PythonQuizProject_Jaeyun>
 3회차: 5점
 🏆 최고 점수: 5점
 ```
+## Git 복제 실습
+
+별도 폴더에 저장소를 `git clone`한 뒤, 복제본에서 이 항목을 작성했다.
