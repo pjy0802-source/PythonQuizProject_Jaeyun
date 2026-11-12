@@ -165,7 +165,7 @@ class QuizGame:
             print("4. 점수 확인")
             print("5. 종료하기")
 
-            choice = input("원하는 메뉴 번호를 입력하세요: ")
+            choice = str(self.read_number("원하는 메뉴 번호를 입력하세요: ", 1, 5))
 
             if choice == "1":
                 self.play_quiz()
