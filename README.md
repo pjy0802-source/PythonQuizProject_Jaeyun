@@ -633,3 +633,17 @@ PS C:\PythonQuizProject_Jaeyun>
 ## Git 복제 실습
 
 별도 폴더에 저장소를 `git clone`한 뒤, 복제본에서 이 항목을 작성했다.
+### 원래 프로젝트에서 변경 확인
+
+복제본에서 README를 수정하고 커밋 `00d90dc`를 GitHub에 푸시했다.
+원래 프로젝트에서 `git pull --ff-only origin main`을 실행해 변경을 받아왔다.
+
+```text
+Updating f0deb5a..00d90dc
+Fast-forward
+
+00d90dc (HEAD -> main, origin/main) Docs: 복제 저장소 실습 기록 추가
+README.md:633:## Git 복제 실습
+```
+![Git 저장소 복제 결과](docs/screenshots/git-clone.png)
+![원래 프로젝트에서 변경을 받아온 결과](docs/screenshots/git-pull.png)
