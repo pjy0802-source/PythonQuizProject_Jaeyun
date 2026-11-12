@@ -555,3 +555,55 @@ PS C:\PythonQuizProject_Jaeyun> python .\main.py
 Get-Content -LiteralPath .\state.json
 {broken json
 ```
+### 저장 파일 경로 확인
+
+`state.json`의 경로는 `main.py`가 있는 폴더를 기준으로 정한다.
+PowerShell에서 임시 폴더로 이동해 실행한 뒤, 메뉴 3과 4에서
+프로젝트에 저장된 퀴즈 7개와 최고 점수 4점을 확인했다.
+```
+PS C:\PythonQuizProject_Jaeyun> $quizScript = (Resolve-Path -LiteralPath .\main.py).Path
+PS C:\PythonQuizProject_Jaeyun> Push-Location $env:TEMP
+PS C:\Users\User\AppData\Local\Temp> python $quizScript
+
+=== 파이썬 퀴즈 프로그램 ===
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+5. 종료하기
+원하는 메뉴 번호를 입력하세요: 3
+
+[퀴즈 목록] 총 7개
+1. 파이썬에서 리스트에 요소를 추가하는 함수는?
+2. 파이썬의 창시자는?
+3. 다음 중 파이썬의 특징이 아닌 것은?
+4. 파이썬에서 주석을 작성할 때 사용하는 기호는?
+5. 파이썬에서 딕셔너리를 만들 때 사용하는 괄호는?
+6. 파이썬에서 문자열의 길이를 구하는 함수는?
+7. 파이썬에서 반복문에 사용하는 키워드는?
+
+=== 파이썬 퀴즈 프로그램 ===
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+5. 종료하기
+원하는 메뉴 번호를 입력하세요: 4
+
+[점수 기록] 총 2회 도전
+1회차: 3점
+2회차: 4점
+🏆 최고 점수: 4점
+
+=== 파이썬 퀴즈 프로그램 ===
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+5. 종료하기
+원하는 메뉴 번호를 입력하세요: 5
+
+프로그램을 종료합니다. 수고하셨습니다! 👋
+PS C:\Users\User\AppData\Local\Temp> Pop-Location
+PS C:\PythonQuizProject_Jaeyun> 
+```

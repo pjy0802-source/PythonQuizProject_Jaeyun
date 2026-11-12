@@ -1,7 +1,7 @@
 import json
 import os
 
-STATE_FILE = "state.json"  # ← 파일 하나로 통합!
+STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "state.json")
 
 # ===== Quiz 클래스 =====
 class Quiz:
